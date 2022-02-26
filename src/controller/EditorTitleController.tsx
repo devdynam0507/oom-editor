@@ -9,7 +9,7 @@ const EditorTitleContext = createContext<EditorTitleModel>({
 
 interface Props {
     children: JSX.Element | JSX.Element[];
-  }
+}
 
 const EditorTitleProvider = ({ children }: Props): JSX.Element => {
     const [title, setTitle] = useState('');
