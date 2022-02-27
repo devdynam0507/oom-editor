@@ -20,41 +20,59 @@ import { coy as s } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 export const EditorTextAreaView: React.FunctionComponent = () => {
     const { content, preview, cursorPositionStart, cursorPositionEnd, onChange, onFocus, onBlur, setContent } = useContext(EditorTextAreaContext);
 
-    // 지원하려는 Text Editing 기능
-    // 
-    const onClickBold = () => {
-        let newContent = getBoldText(cursorPositionStart, content);
+    // 마크다운 문자열이 추가 된 이후 textarea에 적절한 위치로 포커스를 두기 위해
+    function focusToEditor(locationOfCursorPos: number) {
+        const editorElement: HTMLTextAreaElement = document.getElementById('oom-editor') as HTMLTextAreaElement;
+
+        setTimeout(() => {
+            editorElement.setSelectionRange(locationOfCursorPos, locationOfCursorPos);
+            editorElement.focus();
+        }, 0);
+    }
+
+    const onClickBold = (e: React.MouseEvent<HTMLButtonElement>) => {
+        let editResult = getBoldText(cursorPositionStart, content);
         
-        setContent(newContent);
-        document.getElementById('oom-editor')!.innerText = newContent;
+        setContent(editResult.newContent);
+        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+
+        focusToEditor(editResult.startFocusPosition);
     }
 
     const onClickItalic = () => {
-        let newContent = getItalicText(cursorPositionStart, content);
+        let editResult = getItalicText(cursorPositionStart, content);
         
-        setContent(newContent);
-        document.getElementById('oom-editor')!.innerText = newContent;
+        setContent(editResult.newContent);
+        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+
+        focusToEditor(editResult.startFocusPosition);
     }
 
     const onClickStrength = () => {
-        let newContent = getStrengthText(cursorPositionStart, content);
+        let editResult = getStrengthText(cursorPositionStart, content);
         
-        setContent(newContent);
-        document.getElementById('oom-editor')!.innerText = newContent;
+        setContent(editResult.newContent);
+        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+
+        focusToEditor(editResult.startFocusPosition);
     }
 
     const onClickCodeBlock = () => {
-        let newContent = getCodeBlock(cursorPositionStart, content);
+        let editResult = getCodeBlock(cursorPositionStart, content);
         
-        setContent(newContent);
-        document.getElementById('oom-editor')!.innerText = newContent;
+        setContent(editResult.newContent);
+        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+
+        focusToEditor(editResult.startFocusPosition);
     }
     
     const onClickHeading = () => {
-        let newContent = getHeading(cursorPositionStart, content);
+        let editResult = getHeading(cursorPositionStart, content);
         
-        setContent(newContent);
-        document.getElementById('oom-editor')!.innerText = newContent;
+        setContent(editResult.newContent);
+        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+        
+        focusToEditor(editResult.startFocusPosition);
     }
 
     return (
