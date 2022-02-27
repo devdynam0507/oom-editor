@@ -46,7 +46,6 @@ function editSingle(cursorPositionStart: number, content: string, target: string
             content.slice(0, cursorPositionStart),
             target + " ", 
             content.slice(cursorPositionStart, content.length),
-            "\n"
         ].join(''),
         startFocusPosition: cursorPositionStart + target.length + 2
     }
@@ -72,10 +71,15 @@ function getHeading(positon: number, content: string): EditResult {
     return editSingle(positon, content, '#');
 }
 
+function getQuote(position: number, content: string): EditResult {
+    return editSingle(position, content, '>');
+}
+
 export {
     getBoldText,
     getStrengthText,
     getItalicText,
     getCodeBlock,
-    getHeading
+    getHeading,
+    getQuote
 }

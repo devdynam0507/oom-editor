@@ -9,7 +9,8 @@ import {
     getStrengthText,
     getItalicText,
     getCodeBlock,
-    getHeading
+    getHeading,
+    getQuote
  } from "../edit/EditorFunctions";
 
 // syntax highlighter imports
@@ -93,6 +94,15 @@ export const EditorTextAreaView: React.FunctionComponent = () => {
         focusToEditor(editResult.startFocusPosition);
     }
 
+    const onClickQuote = () => {
+        let editResult = getQuote(cursorPositionStart, content);
+        
+        setContent(editResult.newContent);
+        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+        
+        focusToEditor(editResult.startFocusPosition);
+    }
+
     return (
         <div>
             <textarea onChange={onChange} value={content} onFocus={onFocus} onBlur={onBlur} onKeyDown={onPressTab} id="oom-editor"></textarea>
@@ -102,6 +112,7 @@ export const EditorTextAreaView: React.FunctionComponent = () => {
             <button onClick={onClickCodeBlock}>Code Block</button>
 
             <button onClick={onClickHeading}>Heading</button>
+            <button onClick={onClickQuote}>Quote</button>
 
             <ReactMarkdown 
                 components={{
