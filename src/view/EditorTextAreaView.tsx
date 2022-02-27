@@ -30,6 +30,24 @@ export const EditorTextAreaView: React.FunctionComponent = () => {
         }, 0);
     }
 
+    function onPressTab(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+        if(e.key === 'Tab') {
+            e.preventDefault();
+
+            const cursorStart = e.currentTarget.selectionStart;
+            const cursorEnd = e.currentTarget.selectionEnd;
+            let value = document.getElementById('oom-editor')!.innerText;
+            
+            document.getElementById('oom-editor')!.innerText =
+                value.substring(0, cursorStart) 
+                + ' '
+                + value.substring(cursorEnd); 
+                e.currentTarget.selectionStart = e.currentTarget.selectionEnd = cursorStart + 1;
+            
+            return false;
+        }
+    }
+
     const onClickBold = (e: React.MouseEvent<HTMLButtonElement>) => {
         let editResult = getBoldText(cursorPositionStart, content);
         
@@ -77,7 +95,7 @@ export const EditorTextAreaView: React.FunctionComponent = () => {
 
     return (
         <div>
-            <textarea onChange={onChange} value={content} onFocus={onFocus} onBlur={onBlur} id="oom-editor"></textarea>
+            <textarea onChange={onChange} value={content} onFocus={onFocus} onBlur={onBlur} onKeyDown={onPressTab} id="oom-editor"></textarea>
             <button onClick={onClickBold}>Bold</button>
             <button onClick={onClickItalic}>Italic</button>
             <button onClick={onClickStrength}>Strength</button>
