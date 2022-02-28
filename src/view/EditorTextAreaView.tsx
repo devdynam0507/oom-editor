@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent, useCallback, useContext, useRef } from "react";
 import { EditorTextAreaContext } from "../controller/EditorTextAreaController";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { BlockQuoteCustom } from "../styles/MarkdownStyleCustom";
@@ -11,112 +11,157 @@ import {
     getCodeBlock,
     getHeading,
     getQuote
- } from "../edit/EditorFunctions";
+} from "../edit/EditorFunctions";
 
 // syntax highlighter imports
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 // highlighter styles
 import { coy as s } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
+import Styles from './EditorTextAreaView.module.css';
+import { MdFormatBold, MdFormatItalic, MdFormatQuote, MdFormatStrikethrough, MdOutlineCode } from 'react-icons/md';
+import { BiHeading } from 'react-icons/bi';
+
 export const EditorTextAreaView: React.FunctionComponent = () => {
     const { content, preview, cursorPositionStart, cursorPositionEnd, onChange, onFocus, onBlur, setContent } = useContext(EditorTextAreaContext);
+    const oomEditorRef = useRef<HTMLTextAreaElement>(null);
 
     // 마크다운 문자열이 추가 된 이후 textarea에 적절한 위치로 포커스를 두기 위해
-    function focusToEditor(locationOfCursorPos: number) {
-        const editorElement: HTMLTextAreaElement = document.getElementById('oom-editor') as HTMLTextAreaElement;
-
+    const focusToEditor = useCallback((locationOfCursorPos: number) => {
         setTimeout(() => {
-            editorElement.setSelectionRange(locationOfCursorPos, locationOfCursorPos);
-            editorElement.focus();
+            oomEditorRef.current?.setSelectionRange(locationOfCursorPos, locationOfCursorPos);
+            oomEditorRef.current?.focus();
         }, 0);
-    }
+    }, [oomEditorRef])
 
-    function onPressTab(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-        if(e.key === 'Tab') {
+    const onPressTab: React.KeyboardEventHandler<HTMLTextAreaElement> = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Tab') {
             e.preventDefault();
 
             const cursorStart = e.currentTarget.selectionStart;
             const cursorEnd = e.currentTarget.selectionEnd;
-            let value = document.getElementById('oom-editor')!.innerText;
-            
-            document.getElementById('oom-editor')!.innerText =
-                value.substring(0, cursorStart) 
+            let value = oomEditorRef.current!.innerText;
+
+            oomEditorRef.current!.innerText =
+                value.substring(0, cursorStart)
                 + ' '
-                + value.substring(cursorEnd); 
-                e.currentTarget.selectionStart = e.currentTarget.selectionEnd = cursorStart + 1;
-            
+                + value.substring(cursorEnd);
+            e.currentTarget.selectionStart = e.currentTarget.selectionEnd = cursorStart + 1;
+
             return false;
         }
-    }
+    }, [oomEditorRef])
 
-    const onClickBold = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const onClickBold: React.MouseEventHandler<HTMLButtonElement> = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
         let editResult = getBoldText(cursorPositionStart, content);
-        
+
         setContent(editResult.newContent);
-        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+        oomEditorRef.current!.innerText = editResult.newContent;
 
         focusToEditor(editResult.startFocusPosition);
-    }
+    }, [setContent, focusToEditor, cursorPositionStart, content, oomEditorRef])
 
-    const onClickItalic = () => {
+    const onClickItalic: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
         let editResult = getItalicText(cursorPositionStart, content);
-        
+
         setContent(editResult.newContent);
-        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+        oomEditorRef.current!.innerText = editResult.newContent;
 
         focusToEditor(editResult.startFocusPosition);
-    }
+    }, [oomEditorRef, cursorPositionStart, content, setContent, focusToEditor])
 
-    const onClickStrength = () => {
+    const onClickStrength: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
         let editResult = getStrengthText(cursorPositionStart, content);
-        
+
         setContent(editResult.newContent);
-        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+        oomEditorRef.current!.innerText = editResult.newContent;
 
         focusToEditor(editResult.startFocusPosition);
-    }
+    }, [oomEditorRef, cursorPositionStart, content, setContent, focusToEditor])
 
-    const onClickCodeBlock = () => {
+    const onClickCodeBlock: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
         let editResult = getCodeBlock(cursorPositionStart, content);
-        
+
         setContent(editResult.newContent);
-        document.getElementById('oom-editor')!.innerText = editResult.newContent;
+        oomEditorRef.current!.innerText = editResult.newContent;
 
         focusToEditor(editResult.startFocusPosition);
-    }
-    
-    const onClickHeading = () => {
+    }, [cursorPositionStart, content, setContent, oomEditorRef, focusToEditor])
+
+    const onClickHeading: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
         let editResult = getHeading(cursorPositionStart, content);
-        
-        setContent(editResult.newContent);
-        document.getElementById('oom-editor')!.innerText = editResult.newContent;
-        
-        focusToEditor(editResult.startFocusPosition);
-    }
 
-    const onClickQuote = () => {
-        let editResult = getQuote(cursorPositionStart, content);
-        
         setContent(editResult.newContent);
-        document.getElementById('oom-editor')!.innerText = editResult.newContent;
-        
+        oomEditorRef.current!.innerText = editResult.newContent;
+
         focusToEditor(editResult.startFocusPosition);
-    }
+    }, [cursorPositionStart, content, setContent, focusToEditor, oomEditorRef])
+
+    const onClickQuote: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+        let editResult = getQuote(cursorPositionStart, content);
+
+        setContent(editResult.newContent);
+        oomEditorRef.current!.innerText = editResult.newContent;
+
+        focusToEditor(editResult.startFocusPosition);
+    }, [cursorPositionStart, content, setContent, oomEditorRef, focusToEditor])
 
     return (
-        <div>
-            <textarea onChange={onChange} value={content} onFocus={onFocus} onBlur={onBlur} onKeyDown={onPressTab} id="oom-editor"></textarea>
-            <button onClick={onClickBold}>Bold</button>
-            <button onClick={onClickItalic}>Italic</button>
-            <button onClick={onClickStrength}>Strength</button>
-            <button onClick={onClickCodeBlock}>Code Block</button>
+        <>
+            <div className={Styles.container}>
+                <div className={Styles.buttonBar}>
+                    <button
+                        onClick={onClickBold}
+                        className={Styles.editorButton}
+                        title={"굵게"}>
+                        <MdFormatBold className={Styles.editorButtonSvg} />
+                    </button>
+                    <button
+                        onClick={onClickItalic}
+                        className={Styles.editorButton}
+                        title={"기울이기"}>
+                        <MdFormatItalic className={Styles.editorButtonSvg} />
+                    </button>
+                    <button
+                        onClick={onClickStrength}
+                        className={Styles.editorButton}
+                        title={"취소선"} >
+                        <MdFormatStrikethrough className={Styles.editorButtonSvg} />
+                    </button>
+                    <button
+                        onClick={onClickCodeBlock}
+                        className={Styles.editorButton}
+                        title={"코드 블록"}>
+                        <MdOutlineCode className={Styles.editorButtonSvg} />
+                    </button>
+                    <button
+                        onClick={onClickHeading}
+                        className={Styles.editorButton}
+                        title={"표제"}>
+                        <BiHeading className={Styles.editorButtonSvg} />
+                    </button>
+                    <button
+                        onClick={onClickQuote}
+                        className={Styles.editorButton}
+                        title={"인용"}>
+                        <MdFormatQuote className={Styles.editorButtonSvg} />
+                    </button>
+                </div>
+                <textarea
+                    onChange={onChange}
+                    value={content}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    onKeyDown={onPressTab}
+                    id="oom-editor"
+                    ref={oomEditorRef}
+                    className={Styles.body}
+                ></textarea>
 
-            <button onClick={onClickHeading}>Heading</button>
-            <button onClick={onClickQuote}>Quote</button>
-
-            <ReactMarkdown 
+            </div>
+            <ReactMarkdown
                 components={{
-                    code: ({node, inline, className, children, ...props}) => {
+                    code: ({ node, inline, className, children, ...props }) => {
                         const match = /language-(\w+)/.exec(className || '')
                         return !inline && match ? (
                             <SyntaxHighlighter
@@ -124,18 +169,19 @@ export const EditorTextAreaView: React.FunctionComponent = () => {
                                 language={match[1]}
                                 style={s}
                                 PreTag="div"
-                                // {...props}
+                            // {...props}
                             />
-                            ) : (
+                        ) : (
                             <code className={className} {...props}>
                                 {children}
                             </code>
-                            )
+                        )
                     },
                     blockquote: BlockQuoteCustom
                 }}
                 remarkPlugins={[remarkGfm, remarkBreaks]}
             >{preview}</ReactMarkdown>
-        </div>
+        </>
+
     )
 }
