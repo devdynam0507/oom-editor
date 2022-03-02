@@ -1,0 +1,13 @@
+.title{
+    border:1px solid #E5E5E5;
+    width:100%;
+    height:32px;
+    padding:8px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.titlePreview{
+    font-weight: bold;
+    font-size:16px;
+}

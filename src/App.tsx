@@ -8,14 +8,14 @@ import { EditorTextAreaProvider } from './controller/EditorTextAreaController';
 
 function App() {
   return (
-    <>
+    <div className="App">
       <EditorTitleProvider>
         <EditorTitleView/>
       </EditorTitleProvider>
       <EditorTextAreaProvider>
         <EditorTextAreaView/>
       </EditorTextAreaProvider>
-    </>
+    </div>
   );
 }
 
