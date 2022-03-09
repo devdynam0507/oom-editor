@@ -39,7 +39,6 @@ function editWrap(cursorPositionStart: number, content: string, target: string):
 
 // 감싸지 않는 마크다운 문법
 function editSingle(cursorPositionStart: number, content: string, target: string): EditResult {
-    console.log(content.length);
     return {
         newContent: [
             content.length > 0 ? "\n" : "",
@@ -49,6 +48,31 @@ function editSingle(cursorPositionStart: number, content: string, target: string
         ].join(''),
         startFocusPosition: cursorPositionStart + target.length + 2
     }
+}
+
+/**
+ * @param cursorPositionStart: 커서 시작위치
+ * @param content: 전체 콘텐츠
+ * @param target: 태그
+ * @param targetFormat: 태그 안 포맷 문자열
+ * @param targetFormatContent: 태그 안 포맷을 치환할 문자열
+ * 
+ * @example ![](%url%) -> ![](https://naver.com)
+ */
+function editFormat(
+    content: string, 
+    target: string, 
+    targetFormat: string,
+    targetFormatContent: string
+) {
+    const formatted = target.replace(targetFormat, targetFormatContent);
+    const newContent = [ content, "\n", formatted ].join('');
+
+    console.log(formatted);
+    return {
+        newContent: newContent,
+        startFocusPosition: newContent.length
+    };
 }
 
 function getBoldText(position: number, content: string): EditResult {
@@ -75,11 +99,33 @@ function getQuote(position: number, content: string): EditResult {
     return editSingle(position, content, '>');
 }
 
+function getImageFormat(content: string, imageUrl: string): EditResult {
+    return editFormat(
+        content, '![](%url%)', '%url%', imageUrl
+    );
+}
+
+function getMutlipleImageFormat(content: string, imageUrls: string[]): EditResult {
+    let editResult = null;
+    for(let i = 0; i < imageUrls.length; i++) {
+        if(editResult === null) {
+            editResult = getImageFormat(content, imageUrls[i]);
+        }
+        else {
+            editResult = getImageFormat(editResult.newContent, imageUrls[i]);
+        }
+    }
+
+    return editResult!;
+}
+
 export {
     getBoldText,
     getStrengthText,
     getItalicText,
     getCodeBlock,
     getHeading,
-    getQuote
+    getQuote,
+    getImageFormat,
+    getMutlipleImageFormat
 }

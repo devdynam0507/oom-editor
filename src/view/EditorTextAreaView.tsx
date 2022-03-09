@@ -10,7 +10,9 @@ import {
     getItalicText,
     getCodeBlock,
     getHeading,
-    getQuote
+    getQuote,
+    getImageFormat,
+    getMutlipleImageFormat
 } from "../edit/EditorFunctions";
 
 // syntax highlighter imports
@@ -21,6 +23,7 @@ import { coy as s } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import Styles from './EditorTextAreaView.module.css';
 import { MdFormatBold, MdFormatItalic, MdFormatQuote, MdFormatStrikethrough, MdOutlineCode } from 'react-icons/md';
 import { BiHeading } from 'react-icons/bi';
+import { FileUploader } from "../edit/FileUploader";
 
 export const EditorTextAreaView: React.FunctionComponent = () => {
     const { content, preview, cursorPositionStart, cursorPositionEnd, onChange, onFocus, onBlur, setContent } = useContext(EditorTextAreaContext);
@@ -52,58 +55,59 @@ export const EditorTextAreaView: React.FunctionComponent = () => {
         }
     }, [oomEditorRef])
 
-    const onClickBold: React.MouseEventHandler<HTMLButtonElement> = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-        let editResult = getBoldText(cursorPositionStart, content);
+    const onDropEvent = useCallback((e: React.DragEvent<HTMLTextAreaElement>) => {
+        e.preventDefault();
 
+        if(e.dataTransfer.files) {
+            const uploader: FileUploader = new FileUploader("http://localhost:8080/api/v1/image");
+            uploader.sendUsingAxios(e.dataTransfer.files).then(images => {
+                let editResult = getMutlipleImageFormat(content, images.data);
+                handleChange(editResult);
+            })
+        }
+    }, [oomEditorRef, content]);
+
+    const handleChange = (editResult: any) => {
         setContent(editResult.newContent);
         oomEditorRef.current!.innerText = editResult.newContent;
 
         focusToEditor(editResult.startFocusPosition);
+    }
+
+    const onClickBold: React.MouseEventHandler<HTMLButtonElement> = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+        let editResult = getBoldText(cursorPositionStart, content);
+
+        handleChange(editResult);
     }, [setContent, focusToEditor, cursorPositionStart, content, oomEditorRef])
 
     const onClickItalic: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
         let editResult = getItalicText(cursorPositionStart, content);
 
-        setContent(editResult.newContent);
-        oomEditorRef.current!.innerText = editResult.newContent;
-
-        focusToEditor(editResult.startFocusPosition);
+        handleChange(editResult);
     }, [oomEditorRef, cursorPositionStart, content, setContent, focusToEditor])
 
     const onClickStrength: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
         let editResult = getStrengthText(cursorPositionStart, content);
 
-        setContent(editResult.newContent);
-        oomEditorRef.current!.innerText = editResult.newContent;
-
-        focusToEditor(editResult.startFocusPosition);
+        handleChange(editResult);
     }, [oomEditorRef, cursorPositionStart, content, setContent, focusToEditor])
 
     const onClickCodeBlock: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
         let editResult = getCodeBlock(cursorPositionStart, content);
 
-        setContent(editResult.newContent);
-        oomEditorRef.current!.innerText = editResult.newContent;
-
-        focusToEditor(editResult.startFocusPosition);
+        handleChange(editResult);
     }, [cursorPositionStart, content, setContent, oomEditorRef, focusToEditor])
 
     const onClickHeading: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
         let editResult = getHeading(cursorPositionStart, content);
 
-        setContent(editResult.newContent);
-        oomEditorRef.current!.innerText = editResult.newContent;
-
-        focusToEditor(editResult.startFocusPosition);
+        handleChange(editResult);
     }, [cursorPositionStart, content, setContent, focusToEditor, oomEditorRef])
 
     const onClickQuote: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
         let editResult = getQuote(cursorPositionStart, content);
 
-        setContent(editResult.newContent);
-        oomEditorRef.current!.innerText = editResult.newContent;
-
-        focusToEditor(editResult.startFocusPosition);
+        handleChange(editResult);
     }, [cursorPositionStart, content, setContent, oomEditorRef, focusToEditor])
 
     return (
@@ -156,6 +160,10 @@ export const EditorTextAreaView: React.FunctionComponent = () => {
                     id="oom-editor"
                     ref={oomEditorRef}
                     className={Styles.body}
+                    contentEditable="true"
+                    onDrop={onDropEvent}
+                    onDragEnter={(e) => { e.preventDefault(); }}
+                    suppressContentEditableWarning={true}
                 ></textarea>
 
             </div>
