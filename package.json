@@ -1,7 +1,22 @@
 {
   "name": "oom-editor",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1",
+  "description": "Awsome markdown editor for oom community!",
+  "keywords": ["editor", "typescript", "react", "oom", "markdown"],
+  "author": {
+    "name": "daeyoung nam",
+    "email": "wsnam0507@gmail.com",
+    "url": "https://github.com/devdynam0507"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devdynam0507/oom-editor"
+  },
+  "contributors": ["jinwoo jeon"],
+  "private": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "browser": "./browser/specific/main.js",
   "dependencies": {
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",
@@ -29,7 +44,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "rm -rf dist & mkdir dist && tsc"
   },
   "eslintConfig": {
     "extends": [
