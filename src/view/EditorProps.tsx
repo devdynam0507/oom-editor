@@ -1,11 +1,5 @@
 import React from "react";
 
-interface EditorViewProps {
-    width: number,
-    height: number,
-    refOfTextarea: React.RefObject<HTMLTextAreaElement>,   
-}
-
 /**
  * @field width: number of width pixel
  * @field height: number of height pixel
@@ -13,13 +7,14 @@ interface EditorViewProps {
  * @field buttonTypes: type name of buttons
  * @link /buttons/ButtonTypes.tsx
  */
-interface EditorProps {
+export interface EditorProps {
     width: number, 
     height: number
     buttonTypes: string[]
 };
 
-export type {
-    EditorViewProps,
-    EditorProps
+export interface EditorViewProps {
+    width: number,
+    height: number,
+    refOfTextarea: React.RefObject<HTMLTextAreaElement>,   
 };

@@ -19,7 +19,7 @@ import { CodeBlockButton } from "./CodeBlockButton";
 import { LargeHeadingButton } from "./LargeHeadingButton";
 import { QuoteButton } from "./QuoteButton";
 import { StrengthButton } from "./StrengthButton";
-import Styles from './ButtonStyle.module.css';
+import * as Styles from "./ButtonStyle.module.css";
 export var ButtonWrapper = function (_a) {
     var buttonTypes = _a.buttonTypes, textAreaRef = _a.textAreaRef;
     var _b = useContext(EditorTextAreaContext), content = _b.content, preview = _b.preview, cursorPositionStart = _b.cursorPositionStart, cursorPositionEnd = _b.cursorPositionEnd, onChange = _b.onChange, onFocus = _b.onFocus, onBlur = _b.onBlur, setContent = _b.setContent;

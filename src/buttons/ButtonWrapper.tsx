@@ -16,7 +16,7 @@ import { CodeBlockButton } from "./CodeBlockButton";
 import { LargeHeadingButton } from "./LargeHeadingButton";
 import { QuoteButton } from "./QuoteButton";
 import { StrengthButton } from "./StrengthButton";
-import Styles from './ButtonStyle.module.css';
+import Styles from "./ButtonStyle.module.css";
 
 export const ButtonWrapper: React.FunctionComponent<ButtonWrapperProps> = ({ buttonTypes, textAreaRef }: ButtonWrapperProps) => {
     const { 

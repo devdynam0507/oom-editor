@@ -32,14 +32,14 @@ import { getMutlipleImageFormat } from "../edit/EditorFunctions";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 // highlighter styles
 import { coy as s } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import Styles from './EditorTextAreaView.module.css';
+import * as Styles from "./EditorTextAreaView.module.css";
 import { FileUploader } from "../edit/FileUploader";
 export var EditorTextAreaView = function (viewProps) {
     var _a = useContext(EditorTextAreaContext), content = _a.content, preview = _a.preview, cursorPositionStart = _a.cursorPositionStart, cursorPositionEnd = _a.cursorPositionEnd, onChange = _a.onChange, onFocus = _a.onFocus, onBlur = _a.onBlur, setContent = _a.setContent;
     if (viewProps.refOfTextarea.current !== null) {
         console.log(viewProps);
-        viewProps.refOfTextarea.current.style.width = "".concat(viewProps.width);
-        viewProps.refOfTextarea.current.style.height = "".concat(viewProps.height);
+        viewProps.refOfTextarea.current.style.width = "" + viewProps.width;
+        viewProps.refOfTextarea.current.style.height = "" + viewProps.height;
         viewProps.refOfTextarea.current.style.resize = "none";
     }
     // 마크다운 문자열이 추가 된 이후 textarea에 적절한 위치로 포커스를 두기 위해
@@ -80,7 +80,7 @@ export var EditorTextAreaView = function (viewProps) {
         viewProps.refOfTextarea.current.innerText = editResult.newContent;
         focusToEditor(editResult.startFocusPosition);
     };
-    return (_jsxs(_Fragment, { children: [_jsx("div", __assign({ className: Styles.container }, { children: _jsx("textarea", { onChange: onChange, value: content, onFocus: onFocus, onBlur: onBlur, onKeyDown: onPressTab, id: "oom-editor", ref: viewProps.refOfTextarea, className: Styles.body, contentEditable: "true", onDrop: onDropEvent, onDragEnter: function (e) { e.preventDefault(); }, suppressContentEditableWarning: true }, void 0) }), void 0), _jsx(ReactMarkdown, __assign({ components: {
+    return (_jsxs(_Fragment, { children: [_jsx("textarea", { onChange: onChange, value: content, onFocus: onFocus, onBlur: onBlur, onKeyDown: onPressTab, id: "oom-editor", ref: viewProps.refOfTextarea, className: Styles.body, contentEditable: "true", onDrop: onDropEvent, onDragEnter: function (e) { e.preventDefault(); }, suppressContentEditableWarning: true }, void 0), _jsx(ReactMarkdown, __assign({ components: {
                     code: function (_a) {
                         var node = _a.node, inline = _a.inline, className = _a.className, children = _a.children, props = __rest(_a, ["node", "inline", "className", "children"]);
                         var match = /language-(\w+)/.exec(className || '');

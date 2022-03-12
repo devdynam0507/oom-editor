@@ -13,7 +13,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 // highlighter styles
 import { coy as s } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
-import Styles from './EditorTextAreaView.module.css';
+import Styles from "./EditorTextAreaView.module.css";
 import { FileUploader } from "../edit/FileUploader";
 import { EditorViewProps } from "./EditorProps";
 
@@ -75,23 +75,20 @@ export const EditorTextAreaView: React.FunctionComponent<EditorViewProps> = (vie
 
     return (
         <>
-            <div className={Styles.container}>
-                <textarea
-                    onChange={onChange}
-                    value={content}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    onKeyDown={onPressTab}
-                    id="oom-editor"
-                    ref={viewProps.refOfTextarea}
-                    className={Styles.body}
-                    contentEditable="true"
-                    onDrop={onDropEvent}
-                    onDragEnter={(e) => { e.preventDefault(); }}
-                    suppressContentEditableWarning={true}
-                ></textarea>
-
-            </div>
+            <textarea
+                onChange={onChange}
+                value={content}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onKeyDown={onPressTab}
+                id="oom-editor"
+                ref={viewProps.refOfTextarea}
+                className={Styles.body}
+                contentEditable="true"
+                onDrop={onDropEvent}
+                onDragEnter={(e) => { e.preventDefault(); }}
+                suppressContentEditableWarning={true}
+            ></textarea>
             <ReactMarkdown
                 components={{
                     code: ({ node, inline, className, children, ...props }) => {

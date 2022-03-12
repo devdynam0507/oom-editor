@@ -13,11 +13,9 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { EditorTextAreaView } from "./EditorTextAreaView";
 import { useRef } from "react";
 import { ButtonWrapper } from "../buttons/ButtonWrapper";
-import Styles from './EditorTextAreaView.module.css';
+var Styles = require("./EditorTextAreaView.module.css");
 export var EditorTextAreaContainer = function (_a) {
     var buttonTypes = _a.buttonTypes, width = _a.width, height = _a.height;
     var oomEditorRef = useRef(null);
-    console.log(width);
-    console.log(height);
     return (_jsxs("div", __assign({ className: Styles.container }, { children: [_jsx(ButtonWrapper, { buttonTypes: buttonTypes, textAreaRef: oomEditorRef }, void 0), _jsx(EditorTextAreaView, { width: width, height: height, refOfTextarea: oomEditorRef }, void 0)] }), void 0));
 };

@@ -5,18 +5,14 @@ This is.... Awesome markdown editor!
 npm i oom-editor
 ```
 ```typescript
-import { EditorTitleProvider } from './controller/EditorTitleController';
-import { EditorTitleView } from './view/EditorTitleView';
-import { EditorTextAreaProvider } from './controller/EditorTextAreaController';
-import { EditorTextAreaContainer } from './view/EditorTextAreaContainer';
 import {
-  BoldButtonType,
-  CodeBlockButtonType,
-  ItalicButtonType,
-  LargeHeadingButtonType,
-  QuoteButtonType,
-  StrengthButtonType
-} from './buttons/ButtonTypes'
+  EditorTextAreaProvider, 
+  EditorTitleProvider, 
+  EditorTitleView, 
+  EditorTextAreaContainer, 
+  BoldButtonType, 
+  CodeBlockButtonType
+} from 'oom-editor'
 
 function App() {
   return (
@@ -25,11 +21,10 @@ function App() {
         <EditorTitleView/>
       </EditorTitleProvider>
       <EditorTextAreaProvider>
-        <EditorTextAreaContainer buttonTypes={[
-          BoldButtonType, CodeBlockButtonType, ItalicButtonType, LargeHeadingButtonType, StrengthButtonType, QuoteButtonType
-        ]} 
-        width={300}
-        height={500}/>
+        <EditorTextAreaContainer
+          buttonTypes={[BoldButtonType, CodeBlockButtonType]}
+          width={300}
+          height={500}/>
       </EditorTextAreaProvider>
     </div>
   );
@@ -38,13 +33,13 @@ function App() {
 # Flexible buttons!
 ```typescript
 import {
-    BoldButtonType,
-    CodeBlockButtonType,
-    ItalicButtonType,
-    LargeHeadingButtonType,
-    QuoteButtonType,
-    StrengthButtonType
-} from './buttons/ButtonTypes'
+  EditorTextAreaProvider, 
+  EditorTitleProvider, 
+  EditorTitleView, 
+  EditorTextAreaContainer, 
+  BoldButtonType, 
+  CodeBlockButtonType
+} from 'oom-editor'
 
 function App() {
   return (
