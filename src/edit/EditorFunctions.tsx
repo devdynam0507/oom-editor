@@ -127,5 +127,9 @@ export {
     getHeading,
     getQuote,
     getImageFormat,
-    getMutlipleImageFormat
+    getMutlipleImageFormat, 
+}
+
+export type {
+    EditResult
 }
