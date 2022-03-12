@@ -1,0 +1,18 @@
+.buttonBar{
+    display: flex;
+    padding:8px 0px;
+    gap:0px 8px;
+}
+
+.editorButton{
+    background-color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.editorButtonSvg{
+    width: 20px;
+    height: 20px;
+}
