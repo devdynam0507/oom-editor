@@ -6,13 +6,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "paths": {
-      "style/*": [
-        "src/buttons/ButtonStyle.module.css", 
-        "src/view/EditorTextAreaView.module.css", 
-        "src/view/EditorTitleView.module.css"
-      ]
-    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -27,7 +20,7 @@
     "noEmit": false,
     "jsx": "react-jsx",
     "declaration": true,
-    "outDir": "./dist",
+    "outDir": "./dist"
   },
   "include": [
     "src/**/*.tsx",
@@ -35,6 +28,7 @@
     "src/**/*.ts",
     "src/index.tsx",
     "src/react-app-env.d.ts",
+    "src/**/*.module.css",
     "src/globals.d.ts"
   ]
 }

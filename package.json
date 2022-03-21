@@ -1,8 +1,14 @@
 {
   "name": "oom-editor",
-  "version": "0.0.4",
+  "version": "0.0.8",
   "description": "Awsome markdown editor for oom community!",
-  "keywords": ["editor", "typescript", "react", "oom", "markdown"],
+  "keywords": [
+    "editor",
+    "typescript",
+    "react",
+    "oom",
+    "markdown"
+  ],
   "author": {
     "name": "daeyoung nam",
     "email": "wsnam0507@gmail.com",
@@ -12,7 +18,9 @@
     "type": "git",
     "url": "https://github.com/devdynam0507/oom-editor"
   },
-  "contributors": ["jinwoo jeon"],
+  "contributors": [
+    "jinwoo jeon"
+  ],
   "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,10 +50,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "yarn clean && tsc && yarn copy-files",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "rm -rf dist && mkdir dist && tsc"
+    "prepare": "rm -rf dist && mkdir dist && yarn clean && tsc && yarn copy-files",
+    "clean": "rimraf dist/",
+    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.module.css src/*.css dist/"
   },
   "eslintConfig": {
     "extends": [
@@ -66,6 +76,9 @@
     ]
   },
   "devDependencies": {
-    "@types/react-syntax-highlighter": "13.5.2"
+    "@types/react-syntax-highlighter": "13.5.2",
+    "copyfiles": "2.4.1",
+    "rimraf": "3.0.2",
+    "tsc-hooks": "1.1.1"
   }
 }
